@@ -4,6 +4,7 @@ import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import DashboardOverview from '../components/DashboardOverview';
 import Analytics from '../components/Analytics';
+import InstructorApproval from '../components/InstructorApproval';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -30,6 +31,8 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case 'dashboard':
         return <DashboardOverview />;
+      case 'instructor-approval':
+        return <InstructorApproval />;
       case 'analytics':
         return <Analytics />;
       case 'settings':

@@ -7,7 +7,8 @@ import {
   UserPlus,
   Clock,
   CheckCircle,
-  AlertTriangle
+  AlertTriangle,
+  UserCheck
 } from 'lucide-react';
 import { dummyAdminData, simulateApiCall } from '../data/dummyData';
 
@@ -19,7 +20,8 @@ const DashboardOverview = () => {
     monthlyGrowth: 0,
     newUsersToday: 0,
     pendingCourses: 0,
-    activeSubscriptions: 0
+    activeSubscriptions: 0,
+    pendingInstructorRequests: 0
   });
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -97,6 +99,12 @@ const DashboardOverview = () => {
       value: stats.activeSubscriptions,
       icon: CheckCircle,
       color: 'text-blue-600'
+    },
+    {
+      title: 'Instructor Requests',
+      value: stats.pendingInstructorRequests,
+      icon: UserCheck,
+      color: 'text-purple-600'
     }
   ];
 
