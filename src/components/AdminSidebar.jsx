@@ -2,7 +2,6 @@ import {
   LayoutDashboard, 
   Users, 
   BookOpen, 
-  BarChart3, 
   Settings, 
   LogOut,
   Menu,
@@ -30,12 +29,6 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       label: 'Instructor Requests',
       icon: UserCheck,
       description: 'Approve Instructor Applications'
-    },
-    {
-      id: 'analytics',
-      label: 'Analytics',
-      icon: BarChart3,
-      description: 'Reports & Insights'
     },
     {
       id: 'settings',
