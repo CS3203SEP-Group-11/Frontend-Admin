@@ -4,6 +4,7 @@ import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import DashboardOverview from '../components/DashboardOverview';
 import InstructorApproval from '../components/InstructorApproval';
+import SubscriptionManagement from '../components/SubscriptionManagement';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -32,6 +33,8 @@ const AdminDashboard = () => {
         return <DashboardOverview />;
       case 'instructor-approval':
         return <InstructorApproval />;
+      case 'subscription-management':
+        return <SubscriptionManagement />;
       case 'settings':
         return (
           <div className="p-6">

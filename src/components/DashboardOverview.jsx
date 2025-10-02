@@ -3,7 +3,8 @@ import {
   Users, 
   BookOpen, 
   DollarSign, 
-  TrendingUp
+  TrendingUp,
+  CreditCard
 } from 'lucide-react';
 import { dummyAdminData, simulateApiCall } from '../data/dummyData';
 
@@ -55,19 +56,19 @@ const DashboardOverview = () => {
       changeType: 'positive'
     },
     {
+      title: 'Total Subscribers',
+      value: stats.totalSubscribers || 0,
+      icon: CreditCard,
+      color: 'bg-orange-500',
+      change: '+22%',
+      changeType: 'positive'
+    },
+    {
       title: 'Revenue',
       value: `$${(stats.totalRevenue || 0).toLocaleString()}`,
       icon: DollarSign,
       color: 'bg-purple-500',
       change: '+15%',
-      changeType: 'positive'
-    },
-    {
-      title: 'Monthly Growth',
-      value: `${stats.monthlyGrowth}%`,
-      icon: TrendingUp,
-      color: 'bg-cyan-500',
-      change: '+3%',
       changeType: 'positive'
     }
   ];

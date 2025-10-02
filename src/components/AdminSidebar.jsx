@@ -6,7 +6,8 @@ import {
   LogOut,
   Menu,
   X,
-  UserCheck
+  UserCheck,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { dummyAdminData } from '../data/dummyData';
@@ -29,6 +30,12 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       label: 'Instructor Requests',
       icon: UserCheck,
       description: 'Approve Instructor Applications'
+    },
+    {
+      id: 'subscription-management',
+      label: 'Subscriptions',
+      icon: CreditCard,
+      description: 'Manage Subscription Plans'
     },
     {
       id: 'settings',

@@ -19,7 +19,9 @@ export const dummyAdminData = {
     newUsersToday: 23,
     pendingCourses: 8,
     activeSubscriptions: 1247,
-    pendingInstructorRequests: 5
+    pendingInstructorRequests: 5,
+    totalSubscribers: 1247,
+    subscriptionRevenue: 35420
   },
 
   // Recent activities
@@ -185,7 +187,123 @@ export const dummyAdminData = {
       previousRole: 'Senior Security Analyst at SecureTech',
       profileImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face'
     }
-  ]
+  ],
+
+  // Subscription plans
+  subscriptionPlans: [
+    {
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      name: 'Basic Monthly',
+      amount: 19.99,
+      billingCycle: 'MONTHLY',
+      isActive: true,
+      features: {
+        coursesAccess: 'limited',
+        downloadableContent: true,
+        supportLevel: 'basic',
+        maxCourses: 10
+      },
+      stripePriceId: 'price_basic_monthly',
+      subscribersCount: 450,
+      createdAt: '2024-01-15T10:00:00Z',
+      updatedAt: '2024-01-15T10:00:00Z'
+    },
+    {
+      id: '550e8400-e29b-41d4-a716-446655440001',
+      name: 'Premium Weekly',
+      amount: 9.99,
+      billingCycle: 'WEEKLY',
+      isActive: true,
+      features: {
+        coursesAccess: 'unlimited',
+        downloadableContent: true,
+        supportLevel: 'priority',
+        certificateAccess: true,
+        liveSessionAccess: true
+      },
+      stripePriceId: 'price_premium_weekly',
+      subscribersCount: 180,
+      createdAt: '2024-01-15T10:05:00Z',
+      updatedAt: '2024-01-15T10:05:00Z'
+    },
+    {
+      id: '550e8400-e29b-41d4-a716-446655440002',
+      name: 'Premium Annual',
+      amount: 199.99,
+      billingCycle: 'ANNUAL',
+      isActive: true,
+      features: {
+        coursesAccess: 'unlimited',
+        downloadableContent: true,
+        supportLevel: 'priority',
+        certificateAccess: true,
+        liveSessionAccess: true,
+        discount: '2 months free'
+      },
+      stripePriceId: 'price_premium_annual',
+      subscribersCount: 477,
+      createdAt: '2024-01-15T10:10:00Z',
+      updatedAt: '2024-01-15T10:10:00Z'
+    },
+    {
+      id: '550e8400-e29b-41d4-a716-446655440003',
+      name: 'Pro Quarterly',
+      amount: 149.99,
+      billingCycle: 'THREE_MONTH',
+      isActive: true,
+      features: {
+        coursesAccess: 'unlimited',
+        downloadableContent: true,
+        supportLevel: 'premium',
+        certificateAccess: true,
+        liveSessionAccess: true,
+        mentorshipAccess: true,
+        projectReviews: true
+      },
+      stripePriceId: 'price_pro_quarterly',
+      subscribersCount: 95,
+      createdAt: '2024-02-01T10:00:00Z',
+      updatedAt: '2024-02-01T10:00:00Z'
+    },
+    {
+      id: '550e8400-e29b-41d4-a716-446655440004',
+      name: 'Enterprise 6-Month',
+      amount: 299.99,
+      billingCycle: 'SIX_MONTH',
+      isActive: true,
+      features: {
+        coursesAccess: 'unlimited',
+        downloadableContent: true,
+        supportLevel: 'enterprise',
+        certificateAccess: true,
+        liveSessionAccess: true,
+        mentorshipAccess: true,
+        projectReviews: true,
+        customIntegrations: true
+      },
+      stripePriceId: 'price_enterprise_6month',
+      subscribersCount: 45,
+      createdAt: '2024-03-01T10:00:00Z',
+      updatedAt: '2024-03-01T10:00:00Z'
+    }
+  ],
+
+  // Subscription analytics
+  subscriptionAnalytics: {
+    totalRevenue: 35420,
+    monthlyRecurringRevenue: 25340,
+    annualRecurringRevenue: 10080,
+    totalSubscribers: 1247,
+    newSubscribersThisMonth: 87,
+    revenueGrowth: 15.2,
+    planDistribution: [
+      { planName: 'Basic Monthly', subscribers: 450, percentage: 36.1 },
+      { planName: 'Premium Weekly', subscribers: 180, percentage: 14.4 },
+      { planName: 'Premium Annual', subscribers: 477, percentage: 38.2 },
+      { planName: 'Pro Quarterly', subscribers: 95, percentage: 7.6 },
+      { planName: 'Enterprise 6-Month', subscribers: 45, percentage: 3.6 }
+    ]
+  }
 };
 
 // Utility functions to simulate API delays
