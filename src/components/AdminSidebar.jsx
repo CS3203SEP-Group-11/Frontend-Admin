@@ -7,7 +7,8 @@ import {
   Menu,
   X,
   UserCheck,
-  CreditCard
+  CreditCard,
+  Receipt
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { dummyAdminData } from '../data/dummyData';
@@ -36,6 +37,12 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       label: 'Subscriptions',
       icon: CreditCard,
       description: 'Manage Subscription Plans'
+    },
+    {
+      id: 'transaction-management',
+      label: 'Transactions',
+      icon: Receipt,
+      description: 'View All Transactions'
     },
     {
       id: 'settings',

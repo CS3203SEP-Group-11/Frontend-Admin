@@ -303,6 +303,202 @@ export const dummyAdminData = {
       { planName: 'Pro Quarterly', subscribers: 95, percentage: 7.6 },
       { planName: 'Enterprise 6-Month', subscribers: 45, percentage: 3.6 }
     ]
+  },
+
+  // Transaction data
+  transactions: [
+    {
+      id: 'txn_001',
+      type: 'PURCHASE',
+      amount: 99.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-03T09:30:00Z',
+      userId: 'user_123',
+      userEmail: 'john.doe@email.com',
+      userName: 'John Doe',
+      description: 'Course Purchase - Advanced React Development',
+      paymentMethod: 'Credit Card'
+    },
+    {
+      id: 'txn_002',
+      type: 'USER_SUBSCRIPTION_PAYMENT',
+      amount: 29.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-03T08:15:00Z',
+      userId: 'user_456',
+      userEmail: 'sarah.wilson@email.com',
+      userName: 'Sarah Wilson',
+      description: 'Monthly Premium Subscription',
+      paymentMethod: 'PayPal'
+    },
+    {
+      id: 'txn_003',
+      type: 'PURCHASE',
+      amount: 149.99,
+      currency: 'USD',
+      status: 'PENDING',
+      createdAt: '2024-10-03T07:45:00Z',
+      userId: 'user_789',
+      userEmail: 'mike.johnson@email.com',
+      userName: 'Mike Johnson',
+      description: 'Course Bundle - Full Stack Development',
+      paymentMethod: 'Credit Card'
+    },
+    {
+      id: 'txn_004',
+      type: 'RENEWAL',
+      amount: 99.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-02T16:20:00Z',
+      userId: 'user_101',
+      userEmail: 'emma.davis@email.com',
+      userName: 'Emma Davis',
+      description: 'Annual Premium Subscription Renewal',
+      paymentMethod: 'Credit Card'
+    },
+    {
+      id: 'txn_005',
+      type: 'PURCHASE',
+      amount: 79.99,
+      currency: 'USD',
+      status: 'FAILED',
+      createdAt: '2024-10-02T14:10:00Z',
+      userId: 'user_202',
+      userEmail: 'david.brown@email.com',
+      userName: 'David Brown',
+      description: 'Course Purchase - Python for Data Science',
+      paymentMethod: 'Credit Card',
+      failureReason: 'Insufficient funds'
+    },
+    {
+      id: 'txn_006',
+      type: 'INSTRUCTOR_PAYOUT',
+      amount: 450.00,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-02T12:00:00Z',
+      userId: 'instructor_001',
+      userEmail: 'alex.smith@email.com',
+      userName: 'Alex Smith',
+      description: 'Monthly instructor earnings payout',
+      paymentMethod: 'Bank Transfer'
+    },
+    {
+      id: 'txn_007',
+      type: 'USER_SUBSCRIPTION_PAYMENT',
+      amount: 19.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-02T10:30:00Z',
+      userId: 'user_303',
+      userEmail: 'lisa.garcia@email.com',
+      userName: 'Lisa Garcia',
+      description: 'Weekly Basic Subscription',
+      paymentMethod: 'Credit Card'
+    },
+    {
+      id: 'txn_008',
+      type: 'REFUND',
+      amount: -59.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-02T09:15:00Z',
+      userId: 'user_404',
+      userEmail: 'robert.lee@email.com',
+      userName: 'Robert Lee',
+      description: 'Refund for Course - JavaScript Fundamentals',
+      paymentMethod: 'Credit Card'
+    },
+    {
+      id: 'txn_009',
+      type: 'PURCHASE',
+      amount: 199.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-01T15:45:00Z',
+      userId: 'user_505',
+      userEmail: 'maria.rodriguez@email.com',
+      userName: 'Maria Rodriguez',
+      description: 'Course Purchase - Advanced Machine Learning',
+      paymentMethod: 'PayPal'
+    },
+    {
+      id: 'txn_010',
+      type: 'USER_SUBSCRIPTION_PAYMENT',
+      amount: 249.99,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-10-01T13:20:00Z',
+      userId: 'user_606',
+      userEmail: 'james.taylor@email.com',
+      userName: 'James Taylor',
+      description: 'Quarterly Pro Subscription',
+      paymentMethod: 'Credit Card'
+    },
+    {
+      id: 'txn_011',
+      type: 'PURCHASE',
+      amount: 89.99,
+      currency: 'USD',
+      status: 'PENDING',
+      createdAt: '2024-10-01T11:00:00Z',
+      userId: 'user_707',
+      userEmail: 'anna.white@email.com',
+      userName: 'Anna White',
+      description: 'Course Purchase - UI/UX Design Principles',
+      paymentMethod: 'PayPal'
+    },
+    {
+      id: 'txn_012',
+      type: 'INSTRUCTOR_PAYOUT',
+      amount: 320.50,
+      currency: 'USD',
+      status: 'SUCCESS',
+      createdAt: '2024-09-30T16:30:00Z',
+      userId: 'instructor_002',
+      userEmail: 'chris.wilson@email.com',
+      userName: 'Chris Wilson',
+      description: 'Monthly instructor earnings payout',
+      paymentMethod: 'Bank Transfer'
+    }
+  ],
+
+  // Transaction statistics
+  transactionStats: {
+    totalTransactions: 1847,
+    totalRevenue: 45780.00,
+    todayTransactions: 23,
+    todayRevenue: 1250.00,
+    pendingTransactions: 8,
+    failedTransactions: 12,
+    averageTransactionValue: 87.45,
+    transactionsByType: {
+      PURCHASE: 890,
+      USER_SUBSCRIPTION_PAYMENT: 620,
+      RENEWAL: 180,
+      REFUND: 45,
+      INSTRUCTOR_PAYOUT: 112
+    },
+    transactionsByStatus: {
+      SUCCESS: 1720,
+      PENDING: 85,
+      FAILED: 42
+    },
+    monthlyRevenue: [
+      { month: 'Jan', revenue: 38450 },
+      { month: 'Feb', revenue: 42100 },
+      { month: 'Mar', revenue: 39800 },
+      { month: 'Apr', revenue: 45200 },
+      { month: 'May', revenue: 47600 },
+      { month: 'Jun', revenue: 44900 },
+      { month: 'Jul', revenue: 46800 },
+      { month: 'Aug', revenue: 48200 },
+      { month: 'Sep', revenue: 45780 },
+      { month: 'Oct', revenue: 12300 }
+    ]
   }
 };
 
