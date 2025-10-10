@@ -27,6 +27,12 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       description: 'Reports & Insights'
     },
     {
+      id: 'applications',
+      label: 'Instructor Applications',
+      icon: Users,
+      description: 'Review & Approvals'
+    },
+    {
       id: 'settings',
       label: 'Settings',
       icon: Settings,

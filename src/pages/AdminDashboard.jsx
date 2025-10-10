@@ -4,6 +4,7 @@ import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import DashboardOverview from '../components/DashboardOverview';
 import Analytics from '../components/Analytics';
+import InstructorApplications from '../components/InstructorApplications';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -38,6 +39,17 @@ const AdminDashboard = () => {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Settings</h2>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
               <p className="text-gray-600 dark:text-gray-400">Settings panel coming soon...</p>
+            </div>
+          </div>
+        );
+      case 'applications':
+        return (
+          <div className="p-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Instructor Applications</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-0 shadow-sm">
+              <div className="overflow-hidden">
+                <InstructorApplications />
+              </div>
             </div>
           </div>
         );
