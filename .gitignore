@@ -31,7 +31,6 @@ dist-ssr
 .env.production.local
 
 # Dependencies
-package-lock.json
 yarn.lock
 
 # Build outputs
