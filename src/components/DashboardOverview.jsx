@@ -5,9 +5,7 @@ import {
   DollarSign, 
   TrendingUp, 
   UserPlus,
-  Clock,
-  CheckCircle,
-  AlertTriangle
+  CheckCircle
 } from 'lucide-react';
 import { getRevenueSummary } from '../api/analytics';
 import api from '../api/axios';
@@ -22,7 +20,7 @@ const DashboardOverview = () => {
     pendingCourses: 0,
     activeSubscriptions: 0
   });
-  const [activities, setActivities] = useState([]);
+  // Removed recent activities
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -91,12 +89,6 @@ const DashboardOverview = () => {
       color: 'text-green-600'
     },
     {
-      title: 'Pending Courses',
-      value: stats.pendingCourses,
-      icon: Clock,
-      color: 'text-yellow-600'
-    },
-    {
       title: 'Active Subscriptions',
       value: stats.activeSubscriptions,
       icon: CheckCircle,
@@ -146,10 +138,9 @@ const DashboardOverview = () => {
         })}
       </div>
 
-      {/* Quick stats and recent activities */}
+      {/* Quick stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick stats */}
-        <div className="card p-6">
+        <div className="card p-6 lg:col-span-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Quick Stats
           </h3>
@@ -170,43 +161,6 @@ const DashboardOverview = () => {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* Recent activities */}
-        <div className="card lg:col-span-2 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Recent Activities
-            </h3>
-            <button className="text-sm text-purple-600 hover:text-purple-700 dark:text-purple-400">
-              View All
-            </button>
-          </div>
-          <div className="space-y-3 max-h-64 overflow-y-auto">
-            {activities.length > 0 ? (
-              activities.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="flex-shrink-0">
-                    {activity.type === 'user' && <Users className="w-4 h-4 text-blue-500" />}
-                    {activity.type === 'course' && <BookOpen className="w-4 h-4 text-green-500" />}
-                    {activity.type === 'system' && <AlertTriangle className="w-4 h-4 text-yellow-500" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900 dark:text-white">
-                      {activity.description}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {activity.timestamp}
-                    </p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-6">
-                <p className="text-gray-500 dark:text-gray-400">No recent activities</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
