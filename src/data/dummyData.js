@@ -8,6 +8,7 @@ export const dummyAdminData = {
     email: 'admin@levelup.com',
     role: 'ADMIN',
     createdAt: '2024-01-15T08:00:00Z'
+    
   },
 
   // Dashboard statistics
