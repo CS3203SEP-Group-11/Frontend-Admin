@@ -5,6 +5,8 @@ import AdminHeader from '../components/AdminHeader';
 import DashboardOverview from '../components/DashboardOverview';
 import Analytics from '../components/Analytics';
 import InstructorApplications from '../components/InstructorApplications';
+import SubscriptionManagement from '../components/SubscriptionManagement';
+import TransactionManagement from '../components/TransactionManagement';
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
@@ -31,8 +33,10 @@ const AdminDashboard = () => {
     switch (activeTab) {
       case 'dashboard':
         return <DashboardOverview />;
-      case 'analytics':
-        return <Analytics />;
+      case 'subscription-management':
+        return <SubscriptionManagement />;
+      case 'transaction-management':
+        return <TransactionManagement />;
       case 'settings':
         return (
           <div className="p-6">

@@ -3,9 +3,9 @@ import {
   Users, 
   BookOpen, 
   DollarSign, 
-  TrendingUp, 
   UserPlus,
-  CheckCircle
+  CheckCircle,
+  CreditCard
 } from 'lucide-react';
 import { getRevenueSummary } from '../api/analytics';
 import api from '../api/axios';
@@ -15,10 +15,7 @@ const DashboardOverview = () => {
     totalUsers: 0,
     totalCourses: 0,
     totalRevenue: 0,
-    monthlyGrowth: 0,
-    newUsersToday: 0,
-    pendingCourses: 0,
-    activeSubscriptions: 0
+    monthlyGrowth: 0
   });
   // Removed recent activities
   const [loading, setLoading] = useState(true);
@@ -72,6 +69,14 @@ const DashboardOverview = () => {
       value: stats.totalCourses,
       icon: BookOpen,
       color: 'bg-green-500',
+    },
+    {
+      title: 'Total Subscribers',
+      value: stats.totalSubscribers || 0,
+      icon: CreditCard,
+      color: 'bg-orange-500',
+      change: '+22%',
+      changeType: 'positive'
     },
     {
       title: 'Revenue',
@@ -139,52 +144,61 @@ const DashboardOverview = () => {
       </div>
 
       {/* Quick stats */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="card p-6 lg:col-span-3">
+      {/* You may want to render quickStats here if needed */}
+
+      {/* Top Categories and Enrollment Stats */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Top Categories */}
+        <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            Quick Stats
+            Top Categories
           </h3>
-          <div className="space-y-4">
-            {quickStats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Icon className={`w-5 h-5 ${stat.color}`} />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {stat.title}
-                    </span>
+          <div className="space-y-3">
+            {(stats.courseAnalytics?.topCategories || []).map((category, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                  {category.name}
+                </span>
+                <div className="flex items-center space-x-2">
+                  <div className="w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div 
+                      className="bg-purple-500 h-2 rounded-full"
+                      style={{ width: `${category.percentage}%` }}
+                    />
                   </div>
-                  <span className="text-lg font-bold text-gray-900 dark:text-white">
-                    {stat.value}
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    {category.percentage}%
                   </span>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* System status */}
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          System Status
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">API Services</span>
-            <span className="text-xs text-green-600 font-medium">Operational</span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">Database</span>
-            <span className="text-xs text-green-600 font-medium">Operational</span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-            <span className="text-sm text-gray-700 dark:text-gray-300">File Storage</span>
-            <span className="text-xs text-yellow-600 font-medium">Degraded</span>
+        {/* Enrollment Stats */}
+        <div className="card p-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Enrollment Stats
+          </h3>
+          <div className="space-y-4">
+            <div className="text-center">
+              <p className="text-3xl font-bold text-purple-600">
+                {stats.courseAnalytics?.totalEnrollments || 0}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Total Enrollments</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-green-600">
+                {((stats.courseAnalytics?.completionRate || 0) * 100).toFixed(1)}%
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Completion Rate</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl font-bold text-blue-600">
+                {stats.courseAnalytics?.averageRating || 'N/A'}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Average Rating</p>
+            </div>
           </div>
         </div>
       </div>
