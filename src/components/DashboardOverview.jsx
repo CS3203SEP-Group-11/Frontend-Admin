@@ -9,7 +9,8 @@ import {
   CheckCircle,
   AlertTriangle
 } from 'lucide-react';
-import { dummyAdminData, simulateApiCall } from '../data/dummyData';
+import { getRevenueSummary } from '../api/analytics';
+import api from '../api/axios';
 
 const DashboardOverview = () => {
   const [stats, setStats] = useState({
@@ -30,15 +31,32 @@ const DashboardOverview = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const [dashboardStats, recentActivities] = await Promise.all([
-        simulateApiCall(dummyAdminData.dashboardStats),
-        simulateApiCall(dummyAdminData.recentActivities.slice(0, 8))
-      ]);
-      
-      setStats(dashboardStats);
-      setActivities(recentActivities);
+      console.log('Fetching total users...');
+      const usersRes = await api.get('/users/all');
+      console.log('Users response:', usersRes);
+      const totalUsers = Array.isArray(usersRes.data) ? usersRes.data.length : 0;
+
+      console.log('Fetching total courses...');
+      const coursesRes = await api.get('/courses');
+      console.log('Courses response:', coursesRes);
+      const totalCourses = Array.isArray(coursesRes.data) ? coursesRes.data.length : 0;
+
+      console.log('Fetching revenue summary...');
+      const revenueRes = await getRevenueSummary();
+      console.log('Revenue response:', revenueRes);
+      const totalRevenue = revenueRes && revenueRes.revenue ? Number(revenueRes.revenue) : 0;
+
+      setStats((prev) => ({
+        ...prev,
+        totalUsers,
+        totalCourses,
+        totalRevenue,
+      }));
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
+      if (error.response) {
+        console.error('Error response:', error.response);
+      }
     } finally {
       setLoading(false);
     }
@@ -50,32 +68,18 @@ const DashboardOverview = () => {
       value: stats.totalUsers,
       icon: Users,
       color: 'bg-blue-500',
-      change: '+12%',
-      changeType: 'positive'
     },
     {
       title: 'Total Courses',
       value: stats.totalCourses,
       icon: BookOpen,
       color: 'bg-green-500',
-      change: '+8%',
-      changeType: 'positive'
     },
     {
       title: 'Revenue',
       value: `$${(stats.totalRevenue || 0).toLocaleString()}`,
       icon: DollarSign,
       color: 'bg-purple-500',
-      change: '+15%',
-      changeType: 'positive'
-    },
-    {
-      title: 'Monthly Growth',
-      value: `${stats.monthlyGrowth}%`,
-      icon: TrendingUp,
-      color: 'bg-cyan-500',
-      change: '+3%',
-      changeType: 'positive'
     }
   ];
 
@@ -119,7 +123,7 @@ const DashboardOverview = () => {
       </div>
 
       {/* Main stats grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -132,12 +136,6 @@ const DashboardOverview = () => {
                   <p className="text-2xl font-bold text-gray-900 dark:text-white">
                     {stat.value}
                   </p>
-                  <div className={`flex items-center mt-1 ${
-                    stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-                  }`}>
-                    <TrendingUp className="w-4 h-4 mr-1" />
-                    <span className="text-sm font-medium">{stat.change}</span>
-                  </div>
                 </div>
                 <div className={`${stat.color} p-3 rounded-full`}>
                   <Icon className="w-6 h-6 text-white" />
