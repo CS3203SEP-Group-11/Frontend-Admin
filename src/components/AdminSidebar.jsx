@@ -2,16 +2,22 @@ import {
   LayoutDashboard, 
   Users, 
   BookOpen, 
-  BarChart3, 
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  UserCheck,
+  CreditCard,
+  Receipt
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { dummyAdminData } from '../data/dummyData';
 
 const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
   const { logout } = useAuth();
+  
+  // Get pending instructor requests count
+  const pendingRequests = dummyAdminData.instructorRequests.filter(req => req.status === 'pending').length;
 
   const menuItems = [
     {
@@ -21,10 +27,22 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       description: 'Overview & Statistics'
     },
     {
-      id: 'analytics',
-      label: 'Analytics',
-      icon: BarChart3,
-      description: 'Reports & Insights'
+      id: 'instructor-approval',
+      label: 'Instructor Requests',
+      icon: UserCheck,
+      description: 'Approve Instructor Applications'
+    },
+    {
+      id: 'subscription-management',
+      label: 'Subscriptions',
+      icon: CreditCard,
+      description: 'Manage Subscription Plans'
+    },
+    {
+      id: 'transaction-management',
+      label: 'Transactions',
+      icon: Receipt,
+      description: 'View All Transactions'
     },
     {
       id: 'settings',
@@ -98,8 +116,15 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
                 }`}
               >
                 <Icon className={`w-5 h-5 mr-3 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-white'}`} />
-                <div className="text-left">
-                  <div className="font-medium">{item.label}</div>
+                <div className="text-left flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{item.label}</span>
+                    {item.id === 'instructor-approval' && pendingRequests > 0 && (
+                      <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                        {pendingRequests}
+                      </span>
+                    )}
+                  </div>
                   <div className="text-xs opacity-70">{item.description}</div>
                 </div>
               </button>
