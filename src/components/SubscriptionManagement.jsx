@@ -15,12 +15,11 @@ import {
   X
 } from 'lucide-react';
 
-import { getSubscriptionPlans, getSubscriptionAnalytics } from '../api/subscriptions';
+import { useAdminData } from '../context/AdminDataContext';
+
 
 const SubscriptionManagement = () => {
-  const [subscriptionPlans, setSubscriptionPlans] = useState([]);
-  const [analytics, setAnalytics] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { subscriptionPlans, subscriptionAnalytics: analytics, loading, refreshAdminData } = useAdminData();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [actionLoading, setActionLoading] = useState(null);
   const [newPlan, setNewPlan] = useState({
@@ -30,26 +29,6 @@ const SubscriptionManagement = () => {
     stripePriceId: '',
     features: {}
   });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [plans, analyticsData] = await Promise.all([
-          getSubscriptionPlans(),
-          getSubscriptionAnalytics()
-        ]);
-        setSubscriptionPlans(Array.isArray(plans) ? plans : []);
-        setAnalytics(analyticsData || {});
-      } catch (error) {
-        setSubscriptionPlans([]);
-        setAnalytics({});
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   const handleCreatePlan = async () => {
     setActionLoading('create');

@@ -17,13 +17,13 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from 'lucide-react';
-import { getAllTransactions, getTransactionStats, exportTransactions } from '../api/transactions';
+import { exportTransactions } from '../api/transactions';
+import { useAdminData } from '../context/AdminDataContext';
+
 
 const TransactionManagement = () => {
-  const [transactions, setTransactions] = useState([]);
+  const { transactions, transactionStats: stats, loading, refreshAdminData } = useAdminData();
   const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const [stats, setStats] = useState({});
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -34,61 +34,9 @@ const TransactionManagement = () => {
   const [itemsPerPage] = useState(10);
 
   useEffect(() => {
-    fetchTransactionData();
-  }, []);
-
-  useEffect(() => {
     filterTransactions();
+    // eslint-disable-next-line
   }, [transactions, searchTerm, statusFilter, typeFilter, dateFilter]);
-
-  const fetchTransactionData = async () => {
-    setLoading(true);
-    try {
-      console.log('Fetching transactions...');
-      
-      // Fetch transactions and stats in parallel
-      const [transactionsRes, statsRes] = await Promise.allSettled([
-        getAllTransactions(),
-        getTransactionStats()
-      ]);
-
-      // Handle transactions
-      if (transactionsRes.status === 'fulfilled') {
-        console.log('Transactions response:', transactionsRes.value);
-        setTransactions(Array.isArray(transactionsRes.value) ? transactionsRes.value : []);
-      } else {
-        console.error('Failed to fetch transactions:', transactionsRes.reason);
-        setTransactions([]);
-      }
-
-      // Handle stats
-      if (statsRes.status === 'fulfilled') {
-        console.log('Transaction stats response:', statsRes.value);
-        setStats(statsRes.value || {});
-      } else {
-        console.error('Failed to fetch transaction stats:', statsRes.reason);
-        // Set default stats if API fails
-        setStats({
-          totalRevenue: 0,
-          totalTransactions: 0,
-          pendingTransactions: 0,
-          failedTransactions: 0
-        });
-      }
-
-    } catch (error) {
-      console.error('Failed to fetch transaction data:', error);
-      setTransactions([]);
-      setStats({
-        totalRevenue: 0,
-        totalTransactions: 0,
-        pendingTransactions: 0,
-        failedTransactions: 0
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filterTransactions = () => {
     let filtered = [...transactions];
@@ -287,7 +235,7 @@ const TransactionManagement = () => {
         </h2>
         <div className="flex items-center space-x-3">
           <button
-            onClick={fetchTransactionData}
+            onClick={refreshAdminData}
             className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <RefreshCw className="w-4 h-4 mr-2" />
