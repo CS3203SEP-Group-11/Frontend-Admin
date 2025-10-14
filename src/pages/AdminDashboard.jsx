@@ -3,7 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import DashboardOverview from '../components/DashboardOverview';
-import Analytics from '../components/Analytics';
 import InstructorApplications from '../components/InstructorApplications';
 import SubscriptionManagement from '../components/SubscriptionManagement';
 import TransactionManagement from '../components/TransactionManagement';

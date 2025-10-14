@@ -14,7 +14,8 @@ import {
   PieChart,
   X
 } from 'lucide-react';
-import { dummyAdminData } from '../data/dummyData';
+
+import { getSubscriptionPlans, getSubscriptionAnalytics } from '../api/subscriptions';
 
 const SubscriptionManagement = () => {
   const [subscriptionPlans, setSubscriptionPlans] = useState([]);
@@ -31,12 +32,23 @@ const SubscriptionManagement = () => {
   });
 
   useEffect(() => {
-    // Simulate API call to fetch subscription data
-    setTimeout(() => {
-      setSubscriptionPlans(dummyAdminData.subscriptionPlans);
-      setAnalytics(dummyAdminData.subscriptionAnalytics);
-      setLoading(false);
-    }, 1000);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [plans, analyticsData] = await Promise.all([
+          getSubscriptionPlans(),
+          getSubscriptionAnalytics()
+        ]);
+        setSubscriptionPlans(Array.isArray(plans) ? plans : []);
+        setAnalytics(analyticsData || {});
+      } catch (error) {
+        setSubscriptionPlans([]);
+        setAnalytics({});
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   const handleCreatePlan = async () => {

@@ -24,13 +24,13 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       id: 'dashboard',
       label: 'Dashboard',
       icon: LayoutDashboard,
-      description: 'Overview & Statistics'
+      description: 'Overview & Key Metrics'
     },
-    {
-      id: 'instructor-approval',
-      label: 'Instructor Requests',
-      icon: UserCheck,
-      description: 'Approve Instructor Applications'
+   {
+      id: 'applications',
+      label: 'Instructor Applications',
+      icon: Users,
+      description: 'Review & Approvals'
     },
     {
       id: 'subscription-management',
@@ -43,12 +43,6 @@ const AdminSidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
       label: 'Transactions',
       icon: Receipt,
       description: 'View All Transactions'
-    },
-    {
-      id: 'applications',
-      label: 'Instructor Applications',
-      icon: Users,
-      description: 'Review & Approvals'
     },
     {
       id: 'settings',
