@@ -92,14 +92,32 @@ export const dummyAdminData = {
     courseAnalytics: {
       completions: 1247,
       totalEnrollments: 2847,
-      completionRate: 0.78,
+      completionRate: 0.438,
       averageRating: 4.7,
       topCategories: [
-        { name: 'Programming', percentage: 45 },
-        { name: 'Data Science', percentage: 25 },
-        { name: 'Web Development', percentage: 20 },
-        { name: 'Design', percentage: 10 }
+        { name: 'Programming', enrollments: 1282, percentage: 45 },
+        { name: 'Data Science', enrollments: 712, percentage: 25 },
+        { name: 'Web Development', enrollments: 569, percentage: 20 },
+        { name: 'Design', enrollments: 284, percentage: 10 }
       ]
+    },
+    enrollmentStats: {
+      totalEnrollments: 2847,
+      totalCompletions: 1247,
+      completionRate: 0.438,
+      categoryEnrollments: [
+        { category: 'Programming', enrollments: 1282, completions: 562 },
+        { category: 'Data Science', enrollments: 712, completions: 312 },
+        { category: 'Web Development', enrollments: 569, completions: 249 },
+        { category: 'Design', enrollments: 284, completions: 124 }
+      ]
+    },
+    subscriberStats: {
+      totalSubscribers: 1247,
+      activeSubscribers: 1156,
+      newSubscribersThisMonth: 87,
+      subscriptionRevenue: 35420,
+      growthRate: 15.2
     },
     revenueAnalytics: {
       total: 45780,

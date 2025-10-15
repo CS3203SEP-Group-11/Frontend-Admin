@@ -17,13 +17,13 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from 'lucide-react';
-import { dummyAdminData } from '../data/dummyData';
+import { exportTransactions } from '../api/transactions';
+import { useAdminData } from '../context/AdminDataContext';
+
 
 const TransactionManagement = () => {
-  const [transactions, setTransactions] = useState([]);
+  const { transactions, transactionStats: stats, loading, refreshAdminData } = useAdminData();
   const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const [stats, setStats] = useState({});
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -34,27 +34,9 @@ const TransactionManagement = () => {
   const [itemsPerPage] = useState(10);
 
   useEffect(() => {
-    fetchTransactionData();
-  }, []);
-
-  useEffect(() => {
     filterTransactions();
+    // eslint-disable-next-line
   }, [transactions, searchTerm, statusFilter, typeFilter, dateFilter]);
-
-  const fetchTransactionData = async () => {
-    setLoading(true);
-    try {
-      // Simulate API call
-      setTimeout(() => {
-        setTransactions(dummyAdminData.transactions);
-        setStats(dummyAdminData.transactionStats);
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error('Failed to fetch transaction data:', error);
-      setLoading(false);
-    }
-  };
 
   const filterTransactions = () => {
     let filtered = [...transactions];
@@ -62,10 +44,10 @@ const TransactionManagement = () => {
     // Search filter
     if (searchTerm) {
       filtered = filtered.filter(txn => 
-        txn.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        txn.userEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        txn.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        txn.description.toLowerCase().includes(searchTerm.toLowerCase())
+        (txn.userName && txn.userName.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (txn.userEmail && txn.userEmail.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (txn.id && txn.id.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (txn.description && txn.description.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     }
 
@@ -189,10 +171,37 @@ const TransactionManagement = () => {
     setShowDetailModal(true);
   };
 
-  const exportTransactions = () => {
-    // Simulate export functionality
-    console.log('Exporting transactions...');
-    alert('Export functionality would be implemented here');
+  const exportTransactions = async () => {
+    try {
+      console.log('Exporting transactions...');
+      
+      // Create filters object based on current filter state
+      const filters = {
+        status: statusFilter !== 'all' ? statusFilter : undefined,
+        type: typeFilter !== 'all' ? typeFilter : undefined,
+        dateFilter: dateFilter !== 'all' ? dateFilter : undefined,
+        search: searchTerm || undefined
+      };
+
+      // Remove undefined values
+      Object.keys(filters).forEach(key => filters[key] === undefined && delete filters[key]);
+
+      const blob = await exportTransactions(filters);
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `transactions_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      
+    } catch (error) {
+      console.error('Failed to export transactions:', error);
+      alert('Failed to export transactions. Please try again.');
+    }
   };
 
   // Pagination
@@ -226,7 +235,7 @@ const TransactionManagement = () => {
         </h2>
         <div className="flex items-center space-x-3">
           <button
-            onClick={fetchTransactionData}
+            onClick={refreshAdminData}
             className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <RefreshCw className="w-4 h-4 mr-2" />
@@ -395,7 +404,7 @@ const TransactionManagement = () => {
                         {transaction.id}
                       </div>
                       <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">
-                        {transaction.description}
+                        {transaction.description || 'No description'}
                       </div>
                     </div>
                   </td>
@@ -408,10 +417,10 @@ const TransactionManagement = () => {
                       </div>
                       <div className="ml-3">
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
-                          {transaction.userName}
+                          {transaction.userName || transaction.user?.name || 'Unknown User'}
                         </div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {transaction.userEmail}
+                          {transaction.userEmail || transaction.user?.email || 'No email'}
                         </div>
                       </div>
                     </div>
@@ -428,7 +437,7 @@ const TransactionManagement = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     <div className="flex items-center">
                       <Calendar className="w-4 h-4 mr-1" />
-                      {formatDate(transaction.createdAt)}
+                      {formatDate(transaction.createdAt || transaction.created_at || new Date())}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

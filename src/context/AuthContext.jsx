@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { simulateLogin, dummyAdminData } from '../data/dummyData';
+import { getMyProfile } from '../api/user';
+import { login as authLogin } from '../api/auth';
+import { setCurrentUserRole } from '../api/axios';
 
 /**
  * @typedef {Object} Admin
@@ -30,16 +32,14 @@ export const AuthProvider = ({ children }) => {
 
   const fetchAdmin = async () => {
     try {
-      // Use dummy data instead of API call
-      const adminData = dummyAdminData.admin;
-      setAdmin(adminData);
+      const user = await getMyProfile();
+      setAdmin(user);
       setIsLoggedIn(true);
+      setCurrentUserRole(user?.role || null);
     } catch (err) {
       setAdmin(null);
       setIsLoggedIn(false);
-      // Clear any stored tokens
-      localStorage.removeItem('adminToken');
-      sessionStorage.removeItem('adminToken');
+      setCurrentUserRole(null);
     }
   };
 
@@ -49,15 +49,19 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await simulateLogin(credentials);
-      const { token, admin: adminData } = response;
+      // Clear any existing authentication state first
+      setAdmin(null);
+      setIsLoggedIn(false);
+      setCurrentUserRole(null);
       
-      localStorage.setItem('adminToken', token);
-      setAdmin(adminData);
-      setIsLoggedIn(true);
-      
-      return { success: true, admin: adminData };
+      const response = await authLogin(credentials.username, credentials.password);
+      // After successful login, fetch the user profile
+      await fetchAdmin();
+      return { success: true };
     } catch (error) {
+      setAdmin(null);
+      setIsLoggedIn(false);
+      setCurrentUserRole(null);
       return { 
         success: false, 
         message: error.message || 'Login failed' 
@@ -68,17 +72,12 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setAdmin(null);
     setIsLoggedIn(false);
-    localStorage.removeItem('adminToken');
-    sessionStorage.removeItem('adminToken');
+    setCurrentUserRole(null);
     window.location.href = '/login';
   };
 
   useEffect(() => {
-    // Check if admin token exists
-    const token = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
-    if (token) {
-      fetchAdmin();
-    }
+    fetchAdmin();
   }, []);
 
   return (

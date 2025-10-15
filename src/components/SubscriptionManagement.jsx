@@ -14,12 +14,12 @@ import {
   PieChart,
   X
 } from 'lucide-react';
-import { dummyAdminData } from '../data/dummyData';
+
+import { useAdminData } from '../context/AdminDataContext';
+
 
 const SubscriptionManagement = () => {
-  const [subscriptionPlans, setSubscriptionPlans] = useState([]);
-  const [analytics, setAnalytics] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { subscriptionPlans, subscriptionAnalytics: analytics, loading, refreshAdminData } = useAdminData();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [actionLoading, setActionLoading] = useState(null);
   const [newPlan, setNewPlan] = useState({
@@ -29,15 +29,6 @@ const SubscriptionManagement = () => {
     stripePriceId: '',
     features: {}
   });
-
-  useEffect(() => {
-    // Simulate API call to fetch subscription data
-    setTimeout(() => {
-      setSubscriptionPlans(dummyAdminData.subscriptionPlans);
-      setAnalytics(dummyAdminData.subscriptionAnalytics);
-      setLoading(false);
-    }, 1000);
-  }, []);
 
   const handleCreatePlan = async () => {
     setActionLoading('create');
