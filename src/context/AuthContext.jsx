@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(false);
       setCurrentUserRole(null);
       
+      // Call authLogin with username (which contains email) and password
       const response = await authLogin(credentials.username, credentials.password);
       // After successful login, fetch the user profile
       await fetchAdmin();

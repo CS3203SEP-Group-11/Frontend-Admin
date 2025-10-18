@@ -7,6 +7,9 @@ let currentUserRole = null;
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // Attach X-User-Role header for authenticated requests
