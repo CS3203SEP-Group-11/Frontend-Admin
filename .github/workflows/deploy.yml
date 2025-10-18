@@ -2,11 +2,7 @@ name: Build and Deploy Frontend Admin
 
 on:
   push:
-    branches: [ adminFrontend ]
-
-  pull_request:
-    branches: [ main ]
-
+    branches: [ deploy ]
 
 env:
   GKE_CLUSTER: autopilot-cluster-1
@@ -35,45 +31,45 @@ jobs:
     - name: Build application
       run: npm run build
 
-    # 5️ Login to Docker Hub
+    # Login to Docker Hub
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    # 6️ Build Docker image (two tags: commit SHA + latest)
+    # Build Docker image (two tags: commit SHA + latest)
     - name: Build Docker image
       run: |
         docker build -t $DOCKERHUB_USERNAME/$IMAGE_NAME:$GITHUB_SHA \
                      -t $DOCKERHUB_USERNAME/$IMAGE_NAME:latest .
 
-    # 7️ Push Docker images
+    # Push Docker images
     - name: Push Docker image
       run: |
         docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:$GITHUB_SHA
         docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:latest
 
-    # 8️ Authenticate to Google Cloud
+    # Authenticate to Google Cloud
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-    # 9️ Setup Google Cloud CLI
+    # Setup Google Cloud CLI
     - name: Setup Google Cloud CLI
       uses: google-github-actions/setup-gcloud@v2
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-    # 10 Install GKE Auth Plugin (required for Autopilot)
+    # Install GKE Auth Plugin (required for Autopilot)
     - name: Install GKE Auth Plugin
       run: |
         gcloud components install gke-gcloud-auth-plugin -q
 
-    # 1️1️ Deploy to GKE (only on adminFrontend push)
+    # Deploy to GKE (only on deploy push)
     - name: Deploy to GKE
-      if: github.ref == 'refs/heads/adminFrontend'
+      if: github.ref == 'refs/heads/deploy'
       run: |
         # Get cluster credentials
         gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $PROJECT_ID
